@@ -7,7 +7,7 @@ import os
 
 # Asegúrate de que las variables de entorno estén configuradas en Heroku
 SUPABASE_API_KEY = os.environ.get('SUPABASE_API_KEY')
-Git = os.environ.get('SUPABASE_BEARER_TOKEN')
+SUPABASE_BEARER_TOKEN = os.environ.get('SUPABASE_BEARER_TOKEN')
 
 
 app = Flask(__name__)
