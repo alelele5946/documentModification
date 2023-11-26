@@ -16,6 +16,7 @@ app = Flask(__name__)
 @app.route('/test-crop', methods=['POST'])
 def test_crop():
     data = request.get_json()
+    print(data)
     pdf_url = data.get('URL_PDF')
     row_id = data.get('id')
 
