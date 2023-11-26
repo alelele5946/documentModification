@@ -23,6 +23,7 @@ def test_crop():
 
     pdf_url = record.get('URL_PDF')
     row_id = record.get('id')
+    print(f"URL del PDF: {pdf_url}, ID de la fila: {row_id}")
 
     if not row_id or not pdf_url:
         return jsonify({"error": "Falta el 'id' de la fila o la URL del PDF."}), 400
@@ -64,13 +65,16 @@ def test_crop():
         # Realiza la petición PATCH para actualizar el registro en Supabase
         response = requests.patch(supabase_url, headers=headers, json=data_to_patch, params=params)
         response.raise_for_status()
+        print("PDF procesado y texto actualizado en Supabase con éxito.")
 
 
         return jsonify({"message": "PDF procesado y texto actualizado en Supabase con éxito."})
 
     except requests.HTTPError as e:
+        print(f"HTTPError al procesar la solicitud: {e}")
         return jsonify({"error": f"Error al procesar la solicitud: {e}"}), 500
     except Exception as e:
+        print(f"Error inesperado: {e}")
         return jsonify({"error": f"Error al procesar el archivo PDF: {e}"}), 500
 
 
