@@ -40,7 +40,7 @@ def test_crop():
         # Recortar cada página y extraer texto
         extracted_text = ""
         for page in reader.pages:
-            page.cropbox = RectangleObject((100.3, 0, 612, 792))  # Recortar la página
+            page.cropbox = RectangleObject((100.3, 0, 612, 692))  # Recortar la página
             writer.add_page(page)
             text = page.extract_text()
             if text:
