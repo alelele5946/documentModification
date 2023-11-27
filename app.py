@@ -43,6 +43,7 @@ def test_crop():
             page.cropbox = RectangleObject((100.3, 100.3, 612, 792))  # Recortar la página
             writer.add_page(page)
             text = page.extract_text()
+            print(text)
             
             if text:
                 extracted_text += text + "\n"
