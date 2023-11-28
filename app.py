@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
-from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import RectangleObject
+"""from PyPDF2 import PdfReader, PdfWriter
+from PyPDF2.generic import RectangleObject"""
 import requests
 import io
 import os
+import fitz
 
 # Asegúrate de que las variables de entorno estén configuradas en Heroku
 SUPABASE_API_KEY = os.environ.get('SUPABASE_API_KEY')
@@ -33,6 +34,8 @@ def test_crop():
         response = requests.get(pdf_url)
         response.raise_for_status()
 
+        """
+
         # Leer el PDF desde la respuesta
         reader = PdfReader(io.BytesIO(response.content))
         writer = PdfWriter()
@@ -47,6 +50,26 @@ def test_crop():
             
             if text:
                 extracted_text += text + "\n"
+        """
+        # Usar PyMuPDF para leer el PDF desde la respuesta
+        doc = fitz.open(stream=io.BytesIO(response.content), filetype="pdf")
+
+        extracted_text = ""
+        altura_footer = 80  # Ajusta este valor según tus documentos
+
+        for page in doc:
+            blocks = page.get_text("dict", sort=True)["blocks"]
+            for block in blocks:
+                rect = fitz.Rect(block["bbox"])
+                if rect.y1 < (page.rect.height - altura_footer):
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            extracted_text += span["text"] + " "
+                    extracted_text += "\n"
+            extracted_text += "\n--- Fin de Página ---\n\n"
+
+        # Cerrar documento
+        doc.close()
 
         # Ahora que tienes el texto, puedes enviarlo a Supabase
         supabase_url = 'https://mgfdhvmvuthxvfyriacu.supabase.co/rest/v1/Documentos'
