@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify
-"""from PyPDF2 import PdfReader, PdfWriter
-from PyPDF2.generic import RectangleObject"""
 import requests
 import io
 import os
@@ -34,23 +32,7 @@ def test_crop():
         response = requests.get(pdf_url)
         response.raise_for_status()
 
-        """
 
-        # Leer el PDF desde la respuesta
-        reader = PdfReader(io.BytesIO(response.content))
-        writer = PdfWriter()
-
-        # Recortar cada página y extraer texto
-        extracted_text = ""
-        for page in reader.pages:
-            page.cropbox = RectangleObject((100.3, 100.3, 612, 792))  # Recortar la página
-            writer.add_page(page)
-            text = page.extract_text()
-            print(text)
-            
-            if text:
-                extracted_text += text + "\n"
-        """
         # Usar PyMuPDF para leer el PDF desde la respuesta
         doc = fitz.open(stream=io.BytesIO(response.content), filetype="pdf")
 
@@ -66,7 +48,7 @@ def test_crop():
                         for span in line["spans"]:
                             extracted_text += span["text"] + " "
                     extracted_text += "\n"
-            extracted_text += "\n--- Fin de Página ---\n\n"
+
 
         # Cerrar documento
         doc.close()
