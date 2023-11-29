@@ -81,7 +81,7 @@ def test_crop():
         }
 
         # Realiza la petición POST para actualizar el registro en Supabase
-        response = requests.post(supabase_url, data=data_to_post)
+        response = requests.post(fastgen_url, data=data_to_post)
         response.raise_for_status()
         print("PDF procesado y texto actualizado en Supabase con éxito.")
 
