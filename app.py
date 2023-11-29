@@ -17,8 +17,8 @@ def test_crop():
     data = request.get_json()
     """record = data.get('record') """ # Accede al diccionario 'record' dentro del JSON
 
-    if not record:
-        return jsonify({"error": "El cuerpo de la solicitud no contiene 'record'."}), 400
+    #if not record:
+     #   return jsonify({"error": "El cuerpo de la solicitud no contiene 'record'."}), 400
 
     pdf_url = data.get('URL_PDF')
     row_id = data.get('id')
