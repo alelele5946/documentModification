@@ -8,17 +8,16 @@ import fitz
 SUPABASE_API_KEY = os.environ.get('SUPABASE_API_KEY')
 SUPABASE_BEARER_TOKEN = os.environ.get('SUPABASE_BEARER_TOKEN')
 
-
 app = Flask(__name__)
 
 
 @app.route('/test-crop', methods=['POST'])
 def test_crop():
     data = request.get_json()
-    """record = data.get('record') """ # Accede al diccionario 'record' dentro del JSON
+    """record = data.get('record') """  # Accede al diccionario 'record' dentro del JSON
 
-    #if not record:
-     #   return jsonify({"error": "El cuerpo de la solicitud no contiene 'record'."}), 400
+    # if not record:
+    #   return jsonify({"error": "El cuerpo de la solicitud no contiene 'record'."}), 400
 
     pdf_url = data.get('URL_PDF')
     row_id = data.get('id')
@@ -31,7 +30,6 @@ def test_crop():
         # Descargar el PDF
         response = requests.get(pdf_url)
         response.raise_for_status()
-
 
         # Usar PyMuPDF para leer el PDF desde la respuesta
         doc = fitz.open(stream=io.BytesIO(response.content), filetype="pdf")
@@ -49,11 +47,12 @@ def test_crop():
                             extracted_text += span["text"] + " "
                     extracted_text += "\n"
 
-
         # Cerrar documento
         doc.close()
 
-        # Ahora que tienes el texto, puedes enviarlo a Supabase
+        # Ahora que tienes el texto, puedes enviarlo a fastgen
+
+        """
         supabase_url = 'https://mgfdhvmvuthxvfyriacu.supabase.co/rest/v1/Documentos'
         headers = {
             "apikey": SUPABASE_API_KEY,
@@ -73,9 +72,20 @@ def test_crop():
         response = requests.patch(supabase_url, headers=headers, json=data_to_patch, params=params)
         response.raise_for_status()
         print("PDF procesado y texto actualizado en Supabase con éxito.")
+        """
+        fastgen_url = 'https://juicio.fastgenapp.com/txtSupabase'
 
+        # Supongamos que quieres actualizar la columna 'document_text' del documento que cumple cierta condición
+        data_to_post = {
+            "Doc_TXT": extracted_text  # Asegúrate de que esta columna exista en tu tabla de Supabase
+        }
 
-        return jsonify({"message": "PDF procesado y texto actualizado en Supabase con éxito."})
+        # Realiza la petición POST para actualizar el registro en Supabase
+        response = requests.post(supabase_url, data=data_to_post)
+        response.raise_for_status()
+        print("PDF procesado y texto actualizado en Supabase con éxito.")
+
+        return jsonify({"message": "PDF procesado y texto mandado a fastgen con éxito."})
 
     except requests.HTTPError as e:
         print(f"HTTPError al procesar la solicitud: {e}")
