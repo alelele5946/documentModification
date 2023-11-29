@@ -15,13 +15,13 @@ app = Flask(__name__)
 @app.route('/test-crop', methods=['POST'])
 def test_crop():
     data = request.get_json()
-    record = data.get('record')  # Accede al diccionario 'record' dentro del JSON
+    """record = data.get('record') """ # Accede al diccionario 'record' dentro del JSON
 
     if not record:
         return jsonify({"error": "El cuerpo de la solicitud no contiene 'record'."}), 400
 
-    pdf_url = record.get('URL_PDF')
-    row_id = record.get('id')
+    pdf_url = data.get('URL_PDF')
+    row_id = data.get('id')
     print(f"URL del PDF: {pdf_url}, ID de la fila: {row_id}")
 
     if not row_id or not pdf_url:
