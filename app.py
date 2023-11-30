@@ -21,6 +21,7 @@ def test_crop():
 
     pdf_url = data.get('URL_PDF')
     row_id = data.get('id')
+    prompt = data.get('prompt')
     print(f"URL del PDF: {pdf_url}, ID de la fila: {row_id}")
 
     if not row_id or not pdf_url:
@@ -35,6 +36,7 @@ def test_crop():
         doc = fitz.open(stream=io.BytesIO(response.content), filetype="pdf")
 
         extracted_text = ""
+        extracted_text += prompt
         altura_footer = 80  # Ajusta este valor según tus documentos
 
         for page in doc:
