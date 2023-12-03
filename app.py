@@ -54,28 +54,8 @@ def test_crop():
 
         # Ahora que tienes el texto, puedes enviarlo a fastgen
 
-        """
-        supabase_url = 'https://mgfdhvmvuthxvfyriacu.supabase.co/rest/v1/Documentos'
-        headers = {
-            "apikey": SUPABASE_API_KEY,
-            "Authorization": SUPABASE_BEARER_TOKEN,
-            "Content-Type": "application/json",
-            "Prefer": "return=minimal"
-        }
-        # Supongamos que quieres actualizar la columna 'document_text' del documento que cumple cierta condición
-        data_to_patch = {
-            "Doc_TXT": extracted_text  # Asegúrate de que esta columna exista en tu tabla de Supabase
-        }
-        # Aquí necesitas especificar cómo identificar el registro a actualizar, por ejemplo:
-        params = {
-            "id": f"eq.{row_id}"  # Reemplaza con la condición apropiada
-        }
-        # Realiza la petición PATCH para actualizar el registro en Supabase
-        response = requests.patch(supabase_url, headers=headers, json=data_to_patch, params=params)
-        response.raise_for_status()
-        print("PDF procesado y texto actualizado en Supabase con éxito.")
-        """
-        fastgen_url = 'https://juicio.fastgenapp.com/txtSupabase'
+
+        fastgen_url = 'https://juiciator.fastgenapp.com/txtSupabase'
 
         # Supongamos que quieres actualizar la columna 'document_text' del documento que cumple cierta condición
         data_to_post = {
