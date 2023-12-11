@@ -63,7 +63,8 @@ def test_crop():
         # Supongamos que quieres actualizar la columna 'document_text' del documento que cumple cierta condición
         data_to_post = {
             "id": row_id,
-            "Doc_TXT": doc_txt  # Asegúrate de que esta columna exista en tu tabla de Supabase
+            "Doc_TXT": doc_txt,  
+            "chatGpt_txt": extracted_txt
         }
 
         # Realiza la petición POST para actualizar el registro en Supabase
