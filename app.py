@@ -64,7 +64,7 @@ def test_crop():
         data_to_post = {
             "id": row_id,
             "Doc_TXT": doc_txt,  
-            "chatGpt_txt": extracted_txt
+            "chatGpt_txt": extracted_text
         }
 
         # Realiza la petición POST para actualizar el registro en Supabase
