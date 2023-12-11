@@ -37,6 +37,7 @@ def test_crop():
 
         extracted_text = ""
         extracted_text += prompt
+        doc_txt = ""
         altura_footer = 80  # Ajusta este valor según tus documentos
 
         for page in doc:
@@ -47,7 +48,9 @@ def test_crop():
                     for line in block["lines"]:
                         for span in line["spans"]:
                             extracted_text += span["text"] + " "
+                            doc_txt += span["text"] + " "
                     extracted_text += "\n"
+                    doc_txt += "/n"
 
         # Cerrar documento
         doc.close()
@@ -60,7 +63,7 @@ def test_crop():
         # Supongamos que quieres actualizar la columna 'document_text' del documento que cumple cierta condición
         data_to_post = {
             "id": row_id,
-            "Doc_TXT": extracted_text  # Asegúrate de que esta columna exista en tu tabla de Supabase
+            "Doc_TXT": doc_txt  # Asegúrate de que esta columna exista en tu tabla de Supabase
         }
 
         # Realiza la petición POST para actualizar el registro en Supabase
